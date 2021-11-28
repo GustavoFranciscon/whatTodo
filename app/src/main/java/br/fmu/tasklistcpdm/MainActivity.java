@@ -3,6 +3,7 @@ package br.fmu.tasklistcpdm;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> list;
     private ArrayAdapter<String> arrayAdapter;
     private ListView listView;
-    private FloatingActionButton addButton;
+    private Button addButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +42,6 @@ public class MainActivity extends AppCompatActivity {
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
         listView.setAdapter(arrayAdapter);
         setUpListViewListener();
-
-
     }
 
     private void setUpListViewListener() {
@@ -50,10 +49,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Context context = getApplicationContext();
-                Toast.makeText(context, "Item Removed", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Item Deletado", Toast.LENGTH_LONG).show();
                 list.remove(i);
                 arrayAdapter.notifyDataSetChanged();
                 return true;
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Context context = getApplicationContext();
+                view.setBackgroundColor(Color.CYAN);
+                Toast.makeText(context, "Segure para Deletar", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -67,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             input.setText("");
 
         }else{
-            Toast.makeText(getApplicationContext(), "Please Enter Text",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Preencha o texto",Toast.LENGTH_LONG).show();
         }
     }
 
