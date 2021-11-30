@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,13 +16,19 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.sql.Timestamp;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     private ArrayList<String> list;
     private ArrayAdapter<String> arrayAdapter;
     private ListView listView;
     private Button addButton;
+    private Calendar lastClick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +68,22 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Context context = getApplicationContext();
                 view.setBackgroundColor(Color.CYAN);
+                Calendar now = Calendar.getInstance();
+                Format formato = new SimpleDateFormat("HHmmss");
+                if(lastClick == null){
+                    now.add(Calendar.SECOND, 30);
+                    lastClick = now;
+                }else{
+                    if(lastClick.before(now)){
+                        now.add(Calendar.SECOND, 30);
+                        lastClick = now;
+                    }else{
+                        return;
+                    }
+                }
+
                 Toast.makeText(context, "Segure para Deletar", Toast.LENGTH_LONG).show();
+
             }
         });
     }
