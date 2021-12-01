@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,15 +14,20 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.logging.SimpleFormatter;
 
 public class MainActivity extends AppCompatActivity {
     private ArrayList<String> list;
     private ArrayAdapter<String> arrayAdapter;
     private ListView listView;
     private Button addButton;
+    private int coratual = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +66,31 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Context context = getApplicationContext();
-                view.setBackgroundColor(Color.CYAN);
+                view.setBackgroundColor(Color.WHITE);
+                ArrayList<Integer> cores = new ArrayList<>();
+
+
+                cores.add(Color.rgb(143, 229, 88));
+                cores.add(Color.rgb(88, 229, 210));
+                cores.add(Color.rgb(88, 180, 229));
+                cores.add(Color.rgb(193, 88, 229));
+                cores.add(Color.rgb(229, 88, 193));
+                cores.add(Color.rgb(229, 88, 88));
+                cores.add(Color.rgb(229, 129, 88));
+
+
+                if(coratual < cores.size()-1){
+                coratual++;
+                }else
+                    {
+                    coratual = 0;
+                }
+
+                view.setBackgroundColor(cores.get(coratual));
                 Toast.makeText(context, "Segure para Deletar", Toast.LENGTH_LONG).show();
             }
         });
+
     }
 
     private void addItem(View view) {
