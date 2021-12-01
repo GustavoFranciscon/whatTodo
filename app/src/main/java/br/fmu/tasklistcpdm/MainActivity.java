@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private Button addButton;
     private int coratual = 0;
 
+    private Calendar lastClick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Context context = getApplicationContext();
+
                 view.setBackgroundColor(Color.WHITE);
                 ArrayList<Integer> cores = new ArrayList<>();
 
@@ -87,7 +89,22 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 view.setBackgroundColor(cores.get(coratual));
+                Calendar now = Calendar.getInstance();
+                Format formato = new SimpleDateFormat("HHmmss");
+                if(lastClick == null){
+                    now.add(Calendar.SECOND, 30);
+                    lastClick = now;
+                }else{
+                    if(lastClick.before(now)){
+                        now.add(Calendar.SECOND, 30);
+                        lastClick = now;
+                    }else{
+                        return;
+                    }
+                }
+
                 Toast.makeText(context, "Segure para Deletar", Toast.LENGTH_LONG).show();
+
             }
         });
 
